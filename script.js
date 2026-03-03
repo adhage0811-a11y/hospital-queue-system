@@ -1,31 +1,43 @@
-gpconst backendURL = "https://hospital-backend-t8lx.onrender.com";
+let queue = [];
+let current = 0;
 
-async function addPatient() {
-    const name = document.getElementById("name").value;
+function addPatient() {
+  let name = document.getElementById("name").value;
 
-    if (name === "") {
-        alert("Enter Name");
-        return;
-    }
+  if (name === "") {
+    alert("Enter name");
+    return;
+  }
 
-    const response = await fetch(`${backendURL}/token`);
-    const data = await response.json();
+  let token = queue.length + current + 1;
+  queue.push({ name: name, token: token });
 
-    alert("Your Token: " + data.token);
+  alert("Your Token: " + token);
 
-    document.getElementById("name").value = "";
-    loadCurrent();
+  document.getElementById("name").value = "";
+  showQueue();
 }
 
-async function nextPatient() {
-    alert("Next button pressed (backend demo)");
+function nextPatient() {
+  if (queue.length === 0) {
+    alert("No patients");
+    return;
+  }
+
+  let patient = queue.shift();
+  current = patient.token;
+
+  document.getElementById("current").innerText = current;
+  alert(patient.name + ", your turn!");
+
+  showQueue();
 }
 
-async function loadCurrent() {
-    const response = await fetch(`${backendURL}/current`);
-    const data = await response.json();
+function showQueue() {
+  let text = "";
+  queue.forEach(function(p) {
+    text += "Token " + p.token + " - " + p.name + "<br>";
+  });
 
-    document.getElementById("current").innerText = data.currentToken;
+  document.getElementById("list").innerHTML = text;
 }
-
-window.onload = loadCurrent;
