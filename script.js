@@ -1,4 +1,4 @@
-const backendURL = "https://hospital-backend-t8lx.onrender.com";
+gpconst backendURL = "https://hospital-backend-t8lx.onrender.com";
 
 async function addPatient() {
     const name = document.getElementById("name").value;
