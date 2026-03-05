@@ -59,3 +59,12 @@ text += "Token " + p.token + " - " + p.name + "<br>";
 document.getElementById("list").innerHTML = text;
 
 }
+function sendSMS(number, name, token){
+
+let message = "Hello " + name + ", Your token " + token + " is ready at hospital.";
+
+let link = "sms:" + number + "?body=" + encodeURIComponent(message);
+
+window.location.href = link;
+
+}
