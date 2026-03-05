@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>Hospital Queue</title>
-  <link rel="stylesheet" href="style.css">
+<title>Hospital Queue System</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <h2>🏥 Smart Hospital Queue</h2>
 
 <input type="text" id="name" placeholder="Enter Name">
+<br><br>
+
+<input type="number" id="phone" placeholder="Enter Mobile Number">
+<br><br>
+
 <button onclick="addPatient()">Get Token</button>
 
 <h3>Current Token: <span id="current">0</span></h3>
-<button onclick="nextPatient()">Next</button>
+
+<button onclick="nextPatient()">Next Patient</button>
 
 <div id="list"></div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
