@@ -11,7 +11,7 @@ alert("Enter name and mobile number");
 return;
 }
 
-let token = queue.length + current + 1;
+let token = queue.length + current + 5;
 
 queue.push({
 name: name,
