@@ -68,3 +68,12 @@ let link = "sms:" + number + "?body=" + encodeURIComponent(message);
 window.location.href = link;
 
 }
+function sendWhatsApp(number, name, token){
+
+let message = "Hello " + name + ", Your token " + token + " is ready at hospital.";
+
+let link = "https://wa.me/91" + number + "?text=" + encodeURIComponent(message);
+
+window.open(link);
+
+}
