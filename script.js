@@ -68,14 +68,29 @@ let link = "sms:" + number + "?body=" + encodeURIComponent(message);
 window.location.href = link;
 
 }
-function sendWhatsApp(number, name, token){
+function changeLanguage(){
 
-let message = "Hello " + name + ", Your token " + token + " is ready at hospital.";
+let lang = document.getElementById("language").value;
 
-let link = "https://wa.me/91" + number + "?text=" + encodeURIComponent(message);
+if(lang === "hi"){
 
-window.open(link);
+document.getElementById("title").innerText = "स्मार्ट हॉस्पिटल कतार प्रणाली";
+document.getElementById("tokenBtn").innerText = "टोकन लें";
 
 }
 
-sendWhatsApp(patient.phone, patient.name, patient.token);
+else if(lang === "mr"){
+
+document.getElementById("title").innerText = "स्मार्ट हॉस्पिटल रांग प्रणाली";
+document.getElementById("tokenBtn").innerText = "टोकन घ्या";
+
+}
+
+else{
+
+document.getElementById("title").innerText = "Smart Hospital Queue";
+document.getElementById("tokenBtn").innerText = "Get Token";
+
+}
+
+}
