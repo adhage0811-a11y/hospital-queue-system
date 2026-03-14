@@ -77,3 +77,5 @@ let link = "https://wa.me/91" + number + "?text=" + encodeURIComponent(message);
 window.open(link);
 
 }
+
+sendWhatsApp(patient.phone, patient.name, patient.token);
