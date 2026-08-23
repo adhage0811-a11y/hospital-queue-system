@@ -1,96 +1,138 @@
 let queue = [];
 let current = 0;
 
+let lang = "en";
+
+const translations = {
+    en: {
+        title: "Smart Hospital Queue",
+        name: "Patient Name",
+        phone: "Mobile Number",
+        tokenBtn: "Get Token",
+        nextBtn: "Next Patient",
+        waiting: "Waiting List",
+        enter: "Enter name and mobile number",
+        generated: "Token Generated: ",
+        noPatients: "No patients waiting",
+        sms: "Hello {name}, Your token {token} is ready at hospital."
+    },
+
+    hi: {
+        title: "स्मार्ट हॉस्पिटल कतार प्रणाली",
+        name: "मरीज का नाम",
+        phone: "मोबाइल नंबर",
+        tokenBtn: "टोकन लें",
+        nextBtn: "अगला मरीज",
+        waiting: "प्रतीक्षा सूची",
+        enter: "नाम और मोबाइल नंबर दर्ज करें",
+        generated: "टोकन प्राप्त हुआ: ",
+        noPatients: "कोई मरीज प्रतीक्षा में नहीं है",
+        sms: "नमस्ते {name}, आपका टोकन {token} अस्पताल में तैयार है।"
+    },
+
+    mr: {
+        title: "स्मार्ट हॉस्पिटल रांग प्रणाली",
+        name: "रुग्णाचे नाव",
+        phone: "मोबाईल नंबर",
+        tokenBtn: "टोकन घ्या",
+        nextBtn: "पुढील रुग्ण",
+        waiting: "प्रतीक्षा यादी",
+        enter: "नाव आणि मोबाईल नंबर टाका",
+        generated: "टोकन मिळाले: ",
+        noPatients: "कोणतेही रुग्ण प्रतीक्षेत नाहीत",
+        sms: "नमस्कार {name}, तुमचा टोकन {token} हॉस्पिटलमध्ये तयार आहे."
+    }
+};
+
+
 function addPatient() {
 
-let name = document.getElementById("name").value;
-let phone = document.getElementById("phone").value;
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
 
-if(name === "" || phone === "") {
-alert("Enter name and mobile number");
-return;
+    if (name === "" || phone === "") {
+        alert(translations[lang].enter);
+        return;
+    }
+
+    let token = queue.length + current + 1;
+
+    queue.push({
+        name: name,
+        phone: phone,
+        token: token
+    });
+
+    alert(translations[lang].generated + token);
+
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+
+    showQueue();
 }
 
-let token = queue.length + current + 1;
 
-queue.push({
-name: name,
-phone: phone,
-token: token
-});
+function nextPatient() {
 
-alert("Token Generated: " + token);
+    if (queue.length === 0) {
+        alert(translations[lang].noPatients);
+        return;
+    }
 
-document.getElementById("name").value = "";
-document.getElementById("phone").value = "";
+    let patient = queue.shift();
 
-showQueue();
+    current = patient.token;
+
+    document.getElementById("current").innerText = current;
+
+    openSMS(patient.phone, patient.name, patient.token);
+
+    showQueue();
 }
 
-function nextPatient(){
 
-if(queue.length === 0){
-alert("No patients waiting");
-return;
+function showQueue() {
+
+    let text = "<h3>" + translations[lang].waiting + "</h3>";
+
+    queue.forEach(p => {
+        text += "Token " + p.token + " - " + p.name + "<br>";
+    });
+
+    document.getElementById("list").innerHTML = text;
 }
 
-let patient = queue.shift();
 
-current = patient.token;
+function openSMS(number, name, token) {
 
-document.getElementById("current").innerText = current;
+    let message = translations[lang].sms
+        .replace("{name}", name)
+        .replace("{token}", token);
 
-// SMS open
-openSMS(patient.phone, patient.name, patient.token);
+    let link = "sms:" + number + "?body=" + encodeURIComponent(message);
 
-showQueue();
-
+    window.location.href = link;
 }
 
-function showQueue(){
 
-let text = "<h3>Waiting List</h3>";
+function changeLanguage() {
 
-queue.forEach(p => {
-text += "Token " + p.token + " - " + p.name + "<br>";
-});
+    lang = document.getElementById("language").value;
 
-document.getElementById("list").innerHTML = text;
+    document.getElementById("title").innerText =
+        translations[lang].title;
 
-}
+    document.getElementById("nameLabel").innerText =
+        translations[lang].name;
 
-function openSMS(number, name, token){
+    document.getElementById("phoneLabel").innerText =
+        translations[lang].phone;
 
-let message = "Hello " + name + ", Your token " + token + " is ready at hospital.";
+    document.getElementById("tokenBtn").innerText =
+        translations[lang].tokenBtn;
 
-let link = "sms:" + number + "?body=" + encodeURIComponent(message);
+    document.getElementById("nextBtn").innerText =
+        translations[lang].nextBtn;
 
-window.location.href = link;
-
-}
-function changeLanguage(){
-
-let lang = document.getElementById("language").value;
-
-if(lang === "hi"){
-
-document.getElementById("title").innerText = "स्मार्ट हॉस्पिटल कतार प्रणाली";
-document.getElementById("tokenBtn").innerText = "टोकन लें";
-
-}
-
-else if(lang === "mr"){
-
-document.getElementById("title").innerText = "स्मार्ट हॉस्पिटल रांग प्रणाली";
-document.getElementById("tokenBtn").innerText = "टोकन घ्या";
-
-}
-
-else{
-
-document.getElementById("title").innerText = "Smart Hospital Queue";
-document.getElementById("tokenBtn").innerText = "Get Token";
-
-}
-
+    showQueue();
 }
