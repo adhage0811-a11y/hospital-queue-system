@@ -1,311 +1,642 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Smart Hospital Queue</title>
+    <title>Smart Hospital Queue</title>
 
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f2f5f9;
-    margin: 0;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-.container {
-    max-width: 600px;
-    margin: 40px auto;
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+        }
 
-h1 {
-    text-align: center;
-}
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
 
-.language {
-    text-align: right;
-}
+        h1 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 25px;
+        }
 
-select, input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0 15px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    font-size: 16px;
-}
+        .language-box {
+            text-align: right;
+            margin-bottom: 20px;
+        }
 
-.language select {
-    width: auto;
-}
+        .language-box select {
+            width: auto;
+            min-width: 130px;
+        }
 
-button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 7px;
-    background: #2563eb;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #334155;
+        }
 
-button:hover {
-    background: #1d4ed8;
-}
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+        }
 
-.current {
-    text-align: center;
-    background: #e0f2fe;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 10px;
-}
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
 
-#current {
-    font-size: 40px;
-    font-weight: bold;
-}
+        button:hover {
+            background: #1d4ed8;
+        }
 
-.queue {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f8fafc;
-    border-radius: 10px;
-}
-</style>
+        .current-box {
+            margin-top: 25px;
+            padding: 20px;
+            text-align: center;
+            background: #e0f2fe;
+            border-radius: 10px;
+        }
+
+        .current-box h2 {
+            margin: 0;
+            color: #0369a1;
+        }
+
+        #current {
+            font-size: 45px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #0f172a;
+        }
+
+        .queue {
+            margin-top: 25px;
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .queue h3 {
+            margin-top: 0;
+            color: #334155;
+        }
+
+        .patient {
+            padding: 10px;
+            margin: 7px 0;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .empty {
+            color: #64748b;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="language">
-    <select id="language">
-        <option value="en">English</option>
-        <option value="hi">हिंदी</option>
-        <option value="mr">मराठी</option>
-    </select>
-</div>
+    <!-- LANGUAGE -->
+    <div class="language-box">
+        <select id="language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="mr">मराठी</option>
+        </select>
+    </div>
 
-<h1 id="title">Smart Hospital Queue</h1>
+    <!-- TITLE -->
+    <h1 id="title">Smart Hospital Queue</h1>
 
-<label id="nameLabel">Patient Name</label>
-<input id="name" type="text" placeholder="Enter patient name">
+    <!-- PATIENT NAME -->
+    <label id="nameLabel">Patient Name</label>
 
-<label id="phoneLabel">Mobile Number</label>
-<input id="phone" type="tel" placeholder="Enter mobile number">
+    <input
+        type="text"
+        id="name"
+        placeholder="Enter patient name"
+    >
 
-<button id="tokenBtn">Get Token</button>
+    <!-- MOBILE NUMBER -->
+    <label id="phoneLabel">Mobile Number</label>
 
-<div class="current">
-    <h2 id="currentTitle">Current Token</h2>
-    <div id="current">0</div>
-</div>
+    <input
+        type="tel"
+        id="phone"
+        maxlength="10"
+        placeholder="Enter mobile number"
+    >
 
-<button id="nextBtn">Next Patient</button>
+    <!-- GET TOKEN -->
+    <button id="tokenBtn">
+        Get Token
+    </button>
 
-<div class="queue">
-    <h3 id="waitingTitle">Waiting List</h3>
-    <div id="list"></div>
-</div>
+    <!-- CURRENT TOKEN -->
+    <div class="current-box">
+
+        <h2 id="currentTitle">
+            Current Token
+        </h2>
+
+        <div id="current">
+            0
+        </div>
+
+    </div>
+
+    <!-- NEXT PATIENT -->
+    <button id="nextBtn">
+        Next Patient
+    </button>
+
+    <!-- WAITING LIST -->
+    <div class="queue">
+
+        <h3 id="waitingTitle">
+            Waiting List
+        </h3>
+
+        <div id="list"></div>
+
+    </div>
 
 </div>
 
 
 <script>
 
+/* =====================================
+   QUEUE DATA
+===================================== */
+
 let queue = [];
 let current = 0;
+
 let language = "en";
 
 
-const text = {
+/* =====================================
+   TRANSLATIONS
+===================================== */
 
-en: {
-title: "Smart Hospital Queue",
-name: "Patient Name",
-namePlaceholder: "Enter patient name",
-phone: "Mobile Number",
-phonePlaceholder: "Enter mobile number",
-token: "Get Token",
-current: "Current Token",
-next: "Next Patient",
-waiting: "Waiting List",
-empty: "No patients waiting",
-enter: "Please enter name and mobile number",
-generated: "Token Generated: "
-},
+const translations = {
 
-hi: {
-title: "स्मार्ट हॉस्पिटल कतार प्रणाली",
-name: "मरीज का नाम",
-namePlaceholder: "मरीज का नाम दर्ज करें",
-phone: "मोबाइल नंबर",
-phonePlaceholder: "मोबाइल नंबर दर्ज करें",
-token: "टोकन लें",
-current: "वर्तमान टोकन",
-next: "अगला मरीज",
-waiting: "प्रतीक्षा सूची",
-empty: "कोई मरीज प्रतीक्षा में नहीं है",
-enter: "कृपया नाम और मोबाइल नंबर दर्ज करें",
-generated: "टोकन प्राप्त हुआ: "
-},
+    en: {
 
-mr: {
-title: "स्मार्ट हॉस्पिटल रांग प्रणाली",
-name: "रुग्णाचे नाव",
-namePlaceholder: "रुग्णाचे नाव टाका",
-phone: "मोबाईल नंबर",
-phonePlaceholder: "मोबाईल नंबर टाका",
-token: "टोकन घ्या",
-current: "सध्याचा टोकन",
-next: "पुढील रुग्ण",
-waiting: "प्रतीक्षा यादी",
-empty: "कोणतेही रुग्ण प्रतीक्षेत नाहीत",
-enter: "कृपया नाव आणि मोबाईल नंबर टाका",
-generated: "टोकन मिळाले: "
-}
+        title: "Smart Hospital Queue",
+
+        name: "Patient Name",
+        namePlaceholder: "Enter patient name",
+
+        phone: "Mobile Number",
+        phonePlaceholder: "Enter 10 digit mobile number",
+
+        tokenBtn: "Get Token",
+
+        current: "Current Token",
+
+        next: "Next Patient",
+
+        waiting: "Waiting List",
+
+        empty: "No patients waiting",
+
+        enterDetails:
+        "Please enter patient name and mobile number.",
+
+        invalidPhone:
+        "Please enter a valid 10 digit mobile number.",
+
+        tokenGenerated:
+        "Token Generated: ",
+
+        sms:
+        "Hello {name}, your token number is {token}. Please wait for your turn at the hospital."
+
+    },
+
+
+    hi: {
+
+        title: "स्मार्ट हॉस्पिटल कतार प्रणाली",
+
+        name: "मरीज का नाम",
+        namePlaceholder: "मरीज का नाम दर्ज करें",
+
+        phone: "मोबाइल नंबर",
+        phonePlaceholder: "10 अंकों का मोबाइल नंबर दर्ज करें",
+
+        tokenBtn: "टोकन लें",
+
+        current: "वर्तमान टोकन",
+
+        next: "अगला मरीज",
+
+        waiting: "प्रतीक्षा सूची",
+
+        empty: "कोई मरीज प्रतीक्षा में नहीं है",
+
+        enterDetails:
+        "कृपया मरीज का नाम और मोबाइल नंबर दर्ज करें।",
+
+        invalidPhone:
+        "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें।",
+
+        tokenGenerated:
+        "टोकन प्राप्त हुआ: ",
+
+        sms:
+        "नमस्ते {name}, आपका टोकन नंबर {token} है। कृपया अस्पताल में अपनी बारी के लिए प्रतीक्षा करें।"
+
+    },
+
+
+    mr: {
+
+        title: "स्मार्ट हॉस्पिटल रांग प्रणाली",
+
+        name: "रुग्णाचे नाव",
+        namePlaceholder: "रुग्णाचे नाव टाका",
+
+        phone: "मोबाईल नंबर",
+        phonePlaceholder: "10 अंकी मोबाईल नंबर टाका",
+
+        tokenBtn: "टोकन घ्या",
+
+        current: "सध्याचा टोकन",
+
+        next: "पुढील रुग्ण",
+
+        waiting: "प्रतीक्षा यादी",
+
+        empty: "कोणतेही रुग्ण प्रतीक्षेत नाहीत",
+
+        enterDetails:
+        "कृपया रुग्णाचे नाव आणि मोबाईल नंबर टाका.",
+
+        invalidPhone:
+        "कृपया योग्य 10 अंकी मोबाईल नंबर टाका.",
+
+        tokenGenerated:
+        "टोकन मिळाले: ",
+
+        sms:
+        "नमस्कार {name}, तुमचा टोकन क्रमांक {token} आहे. कृपया हॉस्पिटलमध्ये आपल्या क्रमांकाची प्रतीक्षा करा."
+
+    }
 
 };
 
 
+/* =====================================
+   CHANGE LANGUAGE
+===================================== */
+
 function changeLanguage() {
 
-    language = document.getElementById("language").value;
+    language =
+        document.getElementById("language").value;
 
-    let t = text[language];
+    let t = translations[language];
 
-    document.getElementById("title").textContent = t.title;
 
-    document.getElementById("nameLabel").textContent = t.name;
+    document.getElementById("title").innerText =
+        t.title;
+
+
+    document.getElementById("nameLabel").innerText =
+        t.name;
+
 
     document.getElementById("name").placeholder =
         t.namePlaceholder;
 
-    document.getElementById("phoneLabel").textContent =
+
+    document.getElementById("phoneLabel").innerText =
         t.phone;
+
 
     document.getElementById("phone").placeholder =
         t.phonePlaceholder;
 
-    document.getElementById("tokenBtn").textContent =
-        t.token;
 
-    document.getElementById("currentTitle").textContent =
+    document.getElementById("tokenBtn").innerText =
+        t.tokenBtn;
+
+
+    document.getElementById("currentTitle").innerText =
         t.current;
 
-    document.getElementById("nextBtn").textContent =
+
+    document.getElementById("nextBtn").innerText =
         t.next;
 
-    document.getElementById("waitingTitle").textContent =
+
+    document.getElementById("waitingTitle").innerText =
         t.waiting;
 
+
     showQueue();
+
 }
 
 
-document
-.getElementById("language")
-.addEventListener("change", changeLanguage);
-
+/* =====================================
+   ADD PATIENT
+===================================== */
 
 function addPatient() {
 
     let name =
         document.getElementById("name").value.trim();
 
+
     let phone =
         document.getElementById("phone").value.trim();
 
+
+    /* EMPTY CHECK */
+
     if (name === "" || phone === "") {
 
-        alert(text[language].enter);
+        alert(
+            translations[language].enterDetails
+        );
 
         return;
     }
 
-    let token = queue.length + current + 1;
+
+    /* PHONE CHECK */
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+
+        alert(
+            translations[language].invalidPhone
+        );
+
+        return;
+    }
+
+
+    /* TOKEN */
+
+    let token =
+        queue.length + current + 1;
+
 
     queue.push({
+
         name: name,
+
         phone: phone,
+
         token: token
+
     });
 
-    alert(text[language].generated + token);
+
+    /* MESSAGE */
+
+    alert(
+        translations[language].tokenGenerated
+        + token
+    );
+
+
+    /* CLEAR INPUT */
 
     document.getElementById("name").value = "";
+
     document.getElementById("phone").value = "";
 
+
     showQueue();
+
 }
 
+
+/* =====================================
+   NEXT PATIENT
+===================================== */
 
 function nextPatient() {
 
     if (queue.length === 0) {
 
-        alert(text[language].empty);
+        alert(
+            translations[language].empty
+        );
 
         return;
     }
 
-    let patient = queue.shift();
 
-    current = patient.token;
+    /* REMOVE FIRST PATIENT */
 
-    document.getElementById("current").textContent =
+    let patient =
+        queue.shift();
+
+
+    /* CURRENT TOKEN */
+
+    current =
+        patient.token;
+
+
+    document.getElementById("current").innerText =
         current;
 
+
+    /* SHOW SMS */
+
+    openSMS(
+        patient.phone,
+        patient.name,
+        patient.token
+    );
+
+
     showQueue();
+
 }
 
+
+/* =====================================
+   SHOW WAITING LIST
+===================================== */
 
 function showQueue() {
 
     let list =
         document.getElementById("list");
 
+
     if (queue.length === 0) {
 
         list.innerHTML =
-            "<p>" + text[language].empty + "</p>";
+            '<p class="empty">' +
+            translations[language].empty +
+            '</p>';
 
         return;
     }
 
+
     let output = "";
+
 
     queue.forEach(function(patient) {
 
         output +=
-            "<p>Token " +
+            '<div class="patient">' +
+            "Token " +
             patient.token +
             " - " +
             patient.name +
-            "</p>";
+            "</div>";
 
     });
 
+
     list.innerHTML = output;
+
 }
 
 
+/* =====================================
+   OPEN SMS
+===================================== */
+
+function openSMS(number, name, token) {
+
+    let message = "";
+
+
+    /* ENGLISH */
+
+    if (language === "en") {
+
+        message =
+            "Hello " +
+            name +
+            ", your token number is " +
+            token +
+            ". Please wait for your turn at the hospital.";
+
+    }
+
+
+    /* HINDI */
+
+    else if (language === "hi") {
+
+        message =
+            "नमस्ते " +
+            name +
+            ", आपका टोकन नंबर " +
+            token +
+            " है। कृपया अस्पताल में अपनी बारी के लिए प्रतीक्षा करें।";
+
+    }
+
+
+    /* MARATHI */
+
+    else if (language === "mr") {
+
+        message =
+            "नमस्कार " +
+            name +
+            ", तुमचा टोकन क्रमांक " +
+            token +
+            " आहे. कृपया हॉस्पिटलमध्ये आपल्या क्रमांकाची प्रतीक्षा करा.";
+
+    }
+
+
+    /* SMS LINK */
+
+    let smsLink =
+        "sms:" +
+        number +
+        "?body=" +
+        encodeURIComponent(message);
+
+
+    window.location.href =
+        smsLink;
+
+}
+
+
+/* =====================================
+   EVENTS
+===================================== */
+
 document
-.getElementById("tokenBtn")
-.addEventListener("click", addPatient);
+    .getElementById("language")
+    .addEventListener(
+        "change",
+        changeLanguage
+    );
 
 
 document
-.getElementById("nextBtn")
-.addEventListener("click", nextPatient);
+    .getElementById("tokenBtn")
+    .addEventListener(
+        "click",
+        addPatient
+    );
 
+
+document
+    .getElementById("nextBtn")
+    .addEventListener(
+        "click",
+        nextPatient
+    );
+
+
+/* =====================================
+   INITIAL LOAD
+===================================== */
+
+changeLanguage();
+
+showQueue();
 
 </script>
 
