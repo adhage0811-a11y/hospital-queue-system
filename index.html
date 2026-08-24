@@ -16,12 +16,16 @@ body{
 }
 
 .container{
-    max-width:600px;
+    max-width:650px;
     margin:auto;
     background:white;
     padding:30px;
     border-radius:15px;
     box-shadow:0 5px 20px rgba(0,0,0,0.15);
+}
+
+h1{
+    color:#1976d2;
 }
 
 select,input,button{
@@ -60,13 +64,14 @@ button:hover{
 }
 
 #current{
-    font-size:45px;
+    font-size:50px;
     color:#1976d2;
 }
 
 #prediction{
     font-size:20px;
     font-weight:bold;
+    color:#d35400;
 }
 
 #list{
@@ -103,6 +108,7 @@ button:hover{
     Get Token
 </button>
 
+
 <div class="box">
 
 <h2 id="currentText">Current Token</h2>
@@ -115,17 +121,23 @@ button:hover{
 
 </div>
 
+
 <div class="box prediction-box">
 
-<h2 id="predictionTitle">AI Estimated Waiting Time</h2>
+<h2 id="predictionTitle">
+    AI Estimated Waiting Time
+</h2>
 
-<p id="prediction">No patients waiting</p>
+<p id="prediction">
+    No patients waiting
+</p>
 
 </div>
 
+
 <div class="box" id="list">
 
-<h3 id="waitingTitle">Waiting List</h3>
+<h3>Waiting List</h3>
 
 No patients waiting.
 
@@ -133,12 +145,17 @@ No patients waiting.
 
 </div>
 
+
 <script>
 
 let queue = [];
+
 let current = 0;
+
 let averageConsultationTime = 10;
+
 let currentLanguage = "en";
+
 
 const translations = {
 
@@ -192,24 +209,45 @@ mr:{
 
 };
 
+
+/* LANGUAGE CHANGE */
+
 function changeLanguage(){
 
     currentLanguage =
         document.getElementById("language").value;
 
-    let t = translations[currentLanguage];
+    let t =
+        translations[currentLanguage];
 
-    document.getElementById("title").innerText = t.title;
-    document.getElementById("name").placeholder = t.name;
-    document.getElementById("phone").placeholder = t.phone;
-    document.getElementById("tokenBtn").innerText = t.token;
-    document.getElementById("currentText").innerText = t.current;
-    document.getElementById("nextBtn").innerText = t.next;
-    document.getElementById("predictionTitle").innerText = t.predictionTitle;
+    document.getElementById("title").innerText =
+        t.title;
+
+    document.getElementById("name").placeholder =
+        t.name;
+
+    document.getElementById("phone").placeholder =
+        t.phone;
+
+    document.getElementById("tokenBtn").innerText =
+        t.token;
+
+    document.getElementById("currentText").innerText =
+        t.current;
+
+    document.getElementById("nextBtn").innerText =
+        t.next;
+
+    document.getElementById("predictionTitle").innerText =
+        t.predictionTitle;
 
     predictWaitingTime();
+
     showQueue();
 }
+
+
+/* ADD PATIENT */
 
 function addPatient(){
 
@@ -219,122 +257,226 @@ function addPatient(){
     let phone =
         document.getElementById("phone").value.trim();
 
-    let t = translations[currentLanguage];
+    let t =
+        translations[currentLanguage];
+
 
     if(name === "" || phone === ""){
 
         alert(t.error);
+
         return;
     }
 
-    // Remove spaces, +91 etc.
-    phone = phone.replace(/\D/g, "");
 
-    // Use last 10 digits for Indian number
+    phone =
+        phone.replace(/\D/g, "");
+
+
     if(phone.length > 10){
-        phone = phone.slice(-10);
+
+        phone =
+            phone.slice(-10);
     }
+
 
     if(phone.length !== 10){
 
-        alert("Please enter valid 10 digit mobile number");
+        alert("Please enter a valid 10 digit mobile number");
+
         return;
     }
+
 
     let token =
         current + queue.length + 1;
 
-    let estimatedTime =
-        queue.length * averageConsultationTime;
 
     queue.push({
+
         name:name,
+
         phone:phone,
+
         token:token
+
     });
 
-    document.getElementById("name").value = "";
-    document.getElementById("phone").value = "";
 
-    predictWaitingTime();
-    showQueue();
+    let estimatedTime =
+        (queue.length - 1) *
+        averageConsultationTime;
 
-    let message =
-        t.tokenGenerated + token +
+
+    alert(
+        t.tokenGenerated +
+        token +
         "\n" +
         t.estimated +
         estimatedTime +
-        t.minutes;
+        t.minutes
+    );
 
-    /*
-       Open default SMS/Messages application.
-       Works mainly on Android/iPhone.
-       Laptop/Desktop may not have an SMS app.
-    */
 
-    let smsURL =
-        "sms:+91" + phone +
-        "?body=" +
-        encodeURIComponent(message);
+    document.getElementById("name").value =
+        "";
 
-    window.location.href = smsURL;
+    document.getElementById("phone").value =
+        "";
+
+
+    predictWaitingTime();
+
+    showQueue();
 }
+
+
+/* NEXT PATIENT + SMS MESSAGE */
 
 function nextPatient(){
 
-    let t = translations[currentLanguage];
+    let t =
+        translations[currentLanguage];
+
 
     if(queue.length === 0){
 
         alert(t.noPatients);
+
         return;
     }
 
-    let patient = queue.shift();
 
-    current = patient.token;
+    let patient =
+        queue.shift();
 
-    document.getElementById("current").innerText = current;
+
+    current =
+        patient.token;
+
+
+    document.getElementById("current").innerText =
+        current;
+
+
+    let message;
+
+
+    if(currentLanguage === "hi"){
+
+        message =
+            "नमस्ते " +
+            patient.name +
+            "\n\nआपका टोकन नंबर " +
+            patient.token +
+            " अब आ गया है।" +
+            "\nकृपया अस्पताल में डॉक्टर के पास आएं।";
+
+    }
+
+    else if(currentLanguage === "mr"){
+
+        message =
+            "नमस्कार " +
+            patient.name +
+            "\n\nतुमचा टोकन नंबर " +
+            patient.token +
+            " आता आला आहे." +
+            "\nकृपया हॉस्पिटलमध्ये डॉक्टरांकडे या.";
+
+    }
+
+    else{
+
+        message =
+            "Hello " +
+            patient.name +
+            "\n\nYour token number " +
+            patient.token +
+            " is now active." +
+            "\nPlease come to the hospital and meet the doctor.";
+
+    }
+
+
+    let phone =
+        patient.phone;
+
+
+    let smsURL =
+        "sms:+91" +
+        phone +
+        "?body=" +
+        encodeURIComponent(message);
+
+
+    window.location.href =
+        smsURL;
+
 
     predictWaitingTime();
+
     showQueue();
 }
 
+
+/* AI WAITING TIME PREDICTION */
+
 function predictWaitingTime(){
 
-    let t = translations[currentLanguage];
+    let t =
+        translations[currentLanguage];
+
+
+    let patientsWaiting =
+        queue.length;
+
 
     let estimatedTime =
-        queue.length * averageConsultationTime;
+        patientsWaiting *
+        averageConsultationTime;
 
-    if(queue.length === 0){
+
+    if(patientsWaiting === 0){
 
         document.getElementById("prediction").innerText =
             t.noPatients;
 
-    }else{
+    }
+
+    else{
 
         document.getElementById("prediction").innerText =
             t.estimated +
             estimatedTime +
             t.minutes;
+
     }
 }
 
+
+/* SHOW WAITING LIST */
+
 function showQueue(){
 
-    let t = translations[currentLanguage];
+    let t =
+        translations[currentLanguage];
+
 
     let text =
         "<h3>" +
         t.waiting +
         "</h3>";
 
+
     if(queue.length === 0){
 
-        text += t.noPatients;
+        text +=
+            t.noPatients;
 
-    }else{
+    }
+
+    else{
 
         queue.forEach(function(patient){
 
@@ -344,11 +486,18 @@ function showQueue(){
                 " - " +
                 patient.name +
                 "<br>";
+
         });
+
     }
 
-    document.getElementById("list").innerHTML = text;
+
+    document.getElementById("list").innerHTML =
+        text;
 }
+
+
+/* START */
 
 changeLanguage();
 
