@@ -4,35 +4,73 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Language Change</title>
+<title>Smart Hospital Queue System</title>
 
 <style>
 body{
     font-family: Arial, sans-serif;
     text-align:center;
-    padding:50px;
+    padding:20px;
     background:#f4f7fb;
 }
 
 .container{
     background:white;
-    max-width:500px;
+    max-width:600px;
     margin:auto;
     padding:30px;
     border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
 
-select, button{
+select,input,button{
+    width:90%;
     padding:12px;
     font-size:16px;
     margin:10px;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+input,select{
+    border:1px solid #ccc;
 }
 
 button{
     background:#1976d2;
     color:white;
     border:none;
-    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#125ea8;
+}
+
+.box{
+    margin-top:20px;
+    padding:20px;
+    background:#e3f2fd;
+    border-radius:10px;
+}
+
+.prediction{
+    background:#fff3cd;
+}
+
+#current{
+    font-size:45px;
+    color:#1976d2;
+}
+
+#prediction{
+    font-size:20px;
+    font-weight:bold;
+}
+
+#list{
+    text-align:left;
+    margin-top:20px;
 }
 </style>
 </head>
@@ -51,16 +89,67 @@ button{
 
 <h2 id="welcome">Welcome to Hospital Queue System</h2>
 
-<input type="text" id="name" placeholder="Enter Patient Name">
+<input
+    type="text"
+    id="name"
+    placeholder="Enter Patient Name"
+>
 
-<br>
+<input
+    type="tel"
+    id="phone"
+    placeholder="Enter Mobile Number"
+>
 
-<button id="button">Get Token</button>
+<button id="tokenBtn" onclick="addPatient()">
+    Get Token
+</button>
+
+
+<div class="box">
+
+<h2 id="currentText">Current Token</h2>
+
+<h1 id="current">0</h1>
+
+<button id="nextBtn" onclick="nextPatient()">
+    Next Patient
+</button>
+
+</div>
+
+
+<div class="box prediction">
+
+<h2 id="predictionTitle">AI Estimated Waiting Time</h2>
+
+<p id="prediction">
+    No patients waiting
+</p>
+
+</div>
+
+
+<div class="box" id="list">
+
+<h3>Waiting List</h3>
+
+No patients waiting.
+
+</div>
 
 </div>
 
 
 <script>
+
+let queue = [];
+let current = 0;
+
+let averageConsultationTime = 10;
+
+let currentLanguage = "en";
+
 
 const translations = {
 
@@ -68,21 +157,51 @@ en:{
     title:"Smart Hospital Queue System",
     welcome:"Welcome to Hospital Queue System",
     name:"Enter Patient Name",
-    button:"Get Token"
+    phone:"Enter Mobile Number",
+    token:"Get Token",
+    current:"Current Token",
+    next:"Next Patient",
+    predictionTitle:"AI Estimated Waiting Time",
+    waiting:"Waiting List",
+    noPatients:"No patients waiting.",
+    error:"Please enter patient name and mobile number",
+    tokenGenerated:"Token Generated: ",
+    estimated:"Estimated Waiting Time: ",
+    minutes:" minutes"
 },
 
 hi:{
     title:"स्मार्ट हॉस्पिटल कतार प्रणाली",
     welcome:"हॉस्पिटल कतार प्रणाली में आपका स्वागत है",
     name:"मरीज का नाम दर्ज करें",
-    button:"टोकन प्राप्त करें"
+    phone:"मोबाइल नंबर दर्ज करें",
+    token:"टोकन प्राप्त करें",
+    current:"वर्तमान टोकन",
+    next:"अगला मरीज",
+    predictionTitle:"AI अनुमानित प्रतीक्षा समय",
+    waiting:"प्रतीक्षा सूची",
+    noPatients:"कोई मरीज प्रतीक्षा में नहीं है।",
+    error:"कृपया मरीज का नाम और मोबाइल नंबर दर्ज करें",
+    tokenGenerated:"टोकन बनाया गया: ",
+    estimated:"अनुमानित प्रतीक्षा समय: ",
+    minutes:" मिनट"
 },
 
 mr:{
     title:"स्मार्ट हॉस्पिटल रांग प्रणाली",
     welcome:"हॉस्पिटल रांग प्रणालीमध्ये आपले स्वागत आहे",
     name:"रुग्णाचे नाव टाका",
-    button:"टोकन मिळवा"
+    phone:"मोबाईल नंबर टाका",
+    token:"टोकन मिळवा",
+    current:"सध्याचा टोकन",
+    next:"पुढील रुग्ण",
+    predictionTitle:"AI अंदाजे प्रतीक्षा वेळ",
+    waiting:"प्रतीक्षा यादी",
+    noPatients:"कोणताही रुग्ण प्रतीक्षेत नाही.",
+    error:"कृपया रुग्णाचे नाव आणि मोबाईल नंबर टाका",
+    tokenGenerated:"टोकन तयार झाला: ",
+    estimated:"अंदाजे प्रतीक्षा वेळ: ",
+    minutes:" मिनिटे"
 }
 
 };
@@ -90,11 +209,11 @@ mr:{
 
 function changeLanguage(){
 
-    let language =
+    currentLanguage =
         document.getElementById("language").value;
 
     let t =
-        translations[language];
+        translations[currentLanguage];
 
 
     document.getElementById("title").innerText =
@@ -106,10 +225,195 @@ function changeLanguage(){
     document.getElementById("name").placeholder =
         t.name;
 
-    document.getElementById("button").innerText =
-        t.button;
+    document.getElementById("phone").placeholder =
+        t.phone;
+
+    document.getElementById("tokenBtn").innerText =
+        t.token;
+
+    document.getElementById("currentText").innerText =
+        t.current;
+
+    document.getElementById("nextBtn").innerText =
+        t.next;
+
+    document.getElementById("predictionTitle").innerText =
+        t.predictionTitle;
+
+
+    predictWaitingTime();
+
+    showQueue();
 
 }
+
+
+function addPatient(){
+
+    let name =
+        document.getElementById("name").value.trim();
+
+    let phone =
+        document.getElementById("phone").value.trim();
+
+    let t =
+        translations[currentLanguage];
+
+
+    if(name === "" || phone === ""){
+
+        alert(t.error);
+
+        return;
+    }
+
+
+    let token =
+        current + queue.length + 1;
+
+
+    queue.push({
+        name:name,
+        phone:phone,
+        token:token
+    });
+
+
+    let estimatedTime =
+        (queue.length - 1) *
+        averageConsultationTime;
+
+
+    alert(
+        t.tokenGenerated +
+        token +
+        "\n" +
+        t.estimated +
+        estimatedTime +
+        t.minutes
+    );
+
+
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+
+
+    predictWaitingTime();
+
+    showQueue();
+
+}
+
+
+function nextPatient(){
+
+    let t =
+        translations[currentLanguage];
+
+
+    if(queue.length === 0){
+
+        alert(t.noPatients);
+
+        return;
+    }
+
+
+    let patient =
+        queue.shift();
+
+
+    current =
+        patient.token;
+
+
+    document.getElementById("current").innerText =
+        current;
+
+
+    predictWaitingTime();
+
+    showQueue();
+
+}
+
+
+function predictWaitingTime(){
+
+    let t =
+        translations[currentLanguage];
+
+
+    let patientsWaiting =
+        queue.length;
+
+
+    let estimatedTime =
+        patientsWaiting *
+        averageConsultationTime;
+
+
+    if(patientsWaiting === 0){
+
+        document.getElementById("prediction").innerText =
+            t.noPatients;
+
+    }
+
+    else{
+
+        document.getElementById("prediction").innerText =
+            t.estimated +
+            estimatedTime +
+            t.minutes;
+
+    }
+
+}
+
+
+function showQueue(){
+
+    let t =
+        translations[currentLanguage];
+
+
+    let text =
+        "<h3>" +
+        t.waiting +
+        "</h3>";
+
+
+    if(queue.length === 0){
+
+        text +=
+            t.noPatients;
+
+    }
+
+    else{
+
+        queue.forEach(function(patient){
+
+            text +=
+                "Token " +
+                patient.token +
+                " - " +
+                patient.name +
+                "<br>";
+
+        });
+
+    }
+
+
+    document.getElementById("list").innerHTML =
+        text;
+
+}
+
+
+changeLanguage();
 
 </script>
 
