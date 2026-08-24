@@ -1,509 +1,1493 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Smart Hospital Queue System</title>
+    <meta charset="UTF-8">
 
-<style>
-body{
-    font-family: Arial, sans-serif;
-    background:#f4f7fb;
-    margin:0;
-    padding:20px;
-    text-align:center;
-}
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-.container{
-    max-width:650px;
-    margin:auto;
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.15);
-}
+    <title>Hospital Queue System</title>
 
-h1{
-    color:#1976d2;
-}
 
-select,input,button{
-    width:90%;
-    padding:12px;
-    margin:10px;
-    font-size:16px;
-    border-radius:8px;
-    box-sizing:border-box;
-}
+    <style>
 
-input,select{
-    border:1px solid #ccc;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-button{
-    border:none;
-    background:#1976d2;
-    color:white;
-    cursor:pointer;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7ff;
+        }
 
-button:hover{
-    background:#125ea8;
-}
 
-.box{
-    margin-top:20px;
-    padding:20px;
-    border-radius:10px;
-    background:#e3f2fd;
-}
+        /* HEADER */
 
-.prediction-box{
-    background:#fff3cd;
-}
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 15px 25px;
 
-#current{
-    font-size:50px;
-    color:#1976d2;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-#prediction{
-    font-size:20px;
-    font-weight:bold;
-    color:#d35400;
-}
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-#list{
-    text-align:left;
-}
-</style>
+        header h2 {
+            margin: 0;
+        }
+
+
+        /* LANGUAGE */
+
+        .language-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #languageSelect {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+
+        /* MAIN */
+
+        .container {
+            max-width: 750px;
+            margin: 30px auto;
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.1);
+        }
+
+
+        h1 {
+            text-align: center;
+            color: #0d6efd;
+        }
+
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 16px;
+        }
+
+
+        /* BUTTON */
+
+        button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            margin-top: 10px;
+        }
+
+
+        .generate-btn {
+            background: #0d6efd;
+        }
+
+        .generate-btn:hover {
+            background: #0958c7;
+        }
+
+
+        .next-btn {
+            background: #198754;
+        }
+
+        .next-btn:hover {
+            background: #146c43;
+        }
+
+
+        /* TOKEN */
+
+        .token-box {
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #e7f1ff;
+
+            border-radius: 10px;
+
+            text-align: center;
+        }
+
+
+        .token-number {
+            font-size: 45px;
+
+            font-weight: bold;
+
+            color: #0d6efd;
+
+            margin-top: 5px;
+        }
+
+
+        /* CURRENT PATIENT */
+
+        .current-box {
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #e8f5e9;
+
+            border-radius: 10px;
+
+            text-align: center;
+        }
+
+
+        .current-number {
+            font-size: 45px;
+
+            font-weight: bold;
+
+            color: #198754;
+        }
+
+
+        /* WAITING LIST */
+
+        .waiting {
+            margin-top: 30px;
+        }
+
+
+        .patient {
+            background: #f8f9fa;
+
+            border: 1px solid #ddd;
+
+            padding: 14px;
+
+            margin-bottom: 10px;
+
+            border-radius: 8px;
+        }
+
+
+        .patient strong {
+            color: #0d6efd;
+
+            font-size: 18px;
+        }
+
+
+        .empty {
+            text-align: center;
+
+            color: #777;
+
+            padding: 15px;
+        }
+
+
+        /* MESSAGE */
+
+        .message-box {
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #fff3cd;
+
+            border: 1px solid #ffe69c;
+
+            border-radius: 8px;
+
+            display: none;
+        }
+
+
+        /* MOBILE */
+
+        @media(max-width:600px) {
+
+            header {
+                flex-direction: column;
+
+                align-items: stretch;
+
+                text-align: center;
+            }
+
+            .language-box {
+                justify-content: center;
+            }
+
+            .container {
+                margin: 15px;
+
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header>
+
+    <h2 id="hospitalTitle">
+        🏥 Hospital Queue System
+    </h2>
+
+
+    <div class="language-box">
+
+        <span id="languageLabel">
+            🌐 Language:
+        </span>
+
+
+        <select
+            id="languageSelect"
+            onchange="changeLanguage()">
+
+            <option value="en">
+                English
+            </option>
+
+            <option value="hi">
+                हिंदी
+            </option>
+
+            <option value="mr">
+                मराठी
+            </option>
+
+        </select>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     MAIN CONTAINER
+========================================= -->
+
 <div class="container">
 
-<h1 id="title">Smart Hospital Queue System</h1>
 
-<select id="language" onchange="changeLanguage()">
-    <option value="en">English</option>
-    <option value="hi">हिंदी</option>
-    <option value="mr">मराठी</option>
-</select>
-
-<input
-    type="text"
-    id="name"
-    placeholder="Enter Patient Name"
->
-
-<input
-    type="tel"
-    id="phone"
-    placeholder="Enter Mobile Number"
->
-
-<button id="tokenBtn" onclick="addPatient()">
-    Get Token
-</button>
+    <h1 id="patientRegistration">
+        Patient Registration
+    </h1>
 
 
-<div class="box">
+    <!-- PATIENT NAME -->
 
-<h2 id="currentText">Current Token</h2>
+    <div class="form-group">
 
-<h1 id="current">0</h1>
+        <label
+            id="nameLabel"
+            for="name">
 
-<button id="nextBtn" onclick="nextPatient()">
-    Next Patient
-</button>
+            Patient Name
+
+        </label>
+
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter patient name">
+
+    </div>
+
+
+
+    <!-- MOBILE NUMBER -->
+
+    <div class="form-group">
+
+        <label
+            id="phoneLabel"
+            for="phone">
+
+            Mobile Number
+
+        </label>
+
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Enter mobile number">
+
+    </div>
+
+
+
+    <!-- GENERATE TOKEN -->
+
+    <button
+        class="generate-btn"
+        id="generateButton"
+        onclick="addPatient()">
+
+        Generate Token
+
+    </button>
+
+
+
+    <!-- =========================================
+         TOKEN DISPLAY
+    ========================================= -->
+
+    <div class="token-box">
+
+        <div id="yourTokenText">
+
+            Your Token Number
+
+        </div>
+
+
+        <div
+            class="token-number"
+            id="tokenNumber">
+
+            -
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         CURRENT PATIENT
+    ========================================= -->
+
+    <div class="current-box">
+
+        <h2 id="currentTitle">
+
+            Current Patient
+
+        </h2>
+
+
+        <div
+            class="current-number"
+            id="currentToken">
+
+            -
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         NEXT PATIENT
+    ========================================= -->
+
+    <button
+        class="next-btn"
+        id="nextButton"
+        onclick="nextPatient()">
+
+        Next Patient
+
+    </button>
+
+
+
+    <!-- =========================================
+         MESSAGE
+    ========================================= -->
+
+    <div
+        class="message-box"
+        id="messageBox">
+
+    </div>
+
+
+
+    <!-- =========================================
+         WAITING LIST
+    ========================================= -->
+
+    <div class="waiting">
+
+        <h2 id="waitingTitle">
+
+            Waiting List
+
+        </h2>
+
+
+        <div id="waitingList">
+
+            <div class="empty">
+
+                No patients waiting
+
+            </div>
+
+        </div>
+
+    </div>
+
 
 </div>
 
-
-<div class="box prediction-box">
-
-<h2 id="predictionTitle">
-    AI Estimated Waiting Time
-</h2>
-
-<p id="prediction">
-    No patients waiting
-</p>
-
-</div>
-
-
-<div class="box" id="list">
-
-<h3>Waiting List</h3>
-
-No patients waiting.
-
-</div>
-
-</div>
 
 
 <script>
 
+
+// =========================================
+// QUEUE VARIABLES
+// =========================================
+
 let queue = [];
 
-let current = 0;
+let tokenCounter = 0;
 
-let averageConsultationTime = 10;
-
-let currentLanguage = "en";
+let currentToken = 0;
 
 
-const translations = {
 
-en:{
-    title:"Smart Hospital Queue System",
-    name:"Enter Patient Name",
-    phone:"Enter Mobile Number",
-    token:"Get Token",
-    current:"Current Token",
-    next:"Next Patient",
-    predictionTitle:"AI Estimated Waiting Time",
-    waiting:"Waiting List",
-    noPatients:"No patients waiting.",
-    error:"Please enter patient name and mobile number",
-    tokenGenerated:"Token Generated: ",
-    estimated:"Estimated Waiting Time: ",
-    minutes:" minutes"
-},
+// =========================================
+// ADD PATIENT
+// =========================================
 
-hi:{
-    title:"स्मार्ट हॉस्पिटल कतार प्रणाली",
-    name:"मरीज का नाम दर्ज करें",
-    phone:"मोबाइल नंबर दर्ज करें",
-    token:"टोकन प्राप्त करें",
-    current:"वर्तमान टोकन",
-    next:"अगला मरीज",
-    predictionTitle:"AI अनुमानित प्रतीक्षा समय",
-    waiting:"प्रतीक्षा सूची",
-    noPatients:"कोई मरीज प्रतीक्षा में नहीं है।",
-    error:"कृपया मरीज का नाम और मोबाइल नंबर दर्ज करें",
-    tokenGenerated:"टोकन बनाया गया: ",
-    estimated:"अनुमानित प्रतीक्षा समय: ",
-    minutes:" मिनट"
-},
+function addPatient() {
 
-mr:{
-    title:"स्मार्ट हॉस्पिटल रांग प्रणाली",
-    name:"रुग्णाचे नाव टाका",
-    phone:"मोबाईल नंबर टाका",
-    token:"टोकन मिळवा",
-    current:"सध्याचा टोकन",
-    next:"पुढील रुग्ण",
-    predictionTitle:"AI अंदाजे प्रतीक्षा वेळ",
-    waiting:"प्रतीक्षा यादी",
-    noPatients:"कोणताही रुग्ण प्रतीक्षेत नाही.",
-    error:"कृपया रुग्णाचे नाव आणि मोबाईल नंबर टाका",
-    tokenGenerated:"टोकन तयार झाला: ",
-    estimated:"अंदाजे प्रतीक्षा वेळ: ",
-    minutes:" मिनिटे"
-}
-
-};
-
-
-/* LANGUAGE CHANGE */
-
-function changeLanguage(){
-
-    currentLanguage =
-        document.getElementById("language").value;
-
-    let t =
-        translations[currentLanguage];
-
-    document.getElementById("title").innerText =
-        t.title;
-
-    document.getElementById("name").placeholder =
-        t.name;
-
-    document.getElementById("phone").placeholder =
-        t.phone;
-
-    document.getElementById("tokenBtn").innerText =
-        t.token;
-
-    document.getElementById("currentText").innerText =
-        t.current;
-
-    document.getElementById("nextBtn").innerText =
-        t.next;
-
-    document.getElementById("predictionTitle").innerText =
-        t.predictionTitle;
-
-    predictWaitingTime();
-
-    showQueue();
-}
-
-
-/* ADD PATIENT */
-
-function addPatient(){
 
     let name =
-        document.getElementById("name").value.trim();
+        document
+        .getElementById("name")
+        .value
+        .trim();
+
 
     let phone =
-        document.getElementById("phone").value.trim();
+        document
+        .getElementById("phone")
+        .value
+        .trim();
 
-    let t =
-        translations[currentLanguage];
 
 
-    if(name === "" || phone === ""){
+    // CHECK EMPTY
 
-        alert(t.error);
+    if (name === "" || phone === "") {
+
+
+        let language =
+            document
+            .getElementById("languageSelect")
+            .value;
+
+
+        if (language === "en") {
+
+            alert(
+                "Please enter patient name and mobile number."
+            );
+
+        }
+
+
+        else if (language === "hi") {
+
+            alert(
+                "कृपया मरीज का नाम और मोबाइल नंबर दर्ज करें।"
+            );
+
+        }
+
+
+        else {
+
+            alert(
+                "कृपया रुग्णाचे नाव आणि मोबाईल नंबर टाका."
+            );
+
+        }
+
 
         return;
+
     }
 
 
-    phone =
-        phone.replace(/\D/g, "");
+
+    // CREATE TOKEN
+
+    tokenCounter++;
 
 
-    if(phone.length > 10){
 
-        phone =
-            phone.slice(-10);
+    let patient = {
+
+        name: name,
+
+        phone: phone,
+
+        token: tokenCounter
+
+    };
+
+
+
+    // ADD TO QUEUE
+
+    queue.push(patient);
+
+
+
+    // SHOW TOKEN
+
+    document
+        .getElementById("tokenNumber")
+        .innerText = tokenCounter;
+
+
+
+    // CLEAR INPUT
+
+    document
+        .getElementById("name")
+        .value = "";
+
+
+    document
+        .getElementById("phone")
+        .value = "";
+
+
+
+    // UPDATE WAITING LIST
+
+    showWaitingList();
+
+
+
+    // SUCCESS MESSAGE
+
+    let language =
+        document
+        .getElementById("languageSelect")
+        .value;
+
+
+
+    if (language === "en") {
+
+        alert(
+            "Token generated successfully!\n\n" +
+            "Token Number: " +
+            tokenCounter
+        );
+
     }
 
 
-    if(phone.length !== 10){
+    else if (language === "hi") {
 
-        alert("Please enter a valid 10 digit mobile number");
+        alert(
+            "टोकन सफलतापूर्वक जनरेट हो गया!\n\n" +
+            "टोकन नंबर: " +
+            tokenCounter
+        );
 
-        return;
     }
 
 
-    let token =
-        current + queue.length + 1;
+    else {
 
+        alert(
+            "टोकन यशस्वीरित्या तयार झाले!\n\n" +
+            "टोकन नंबर: " +
+            tokenCounter
+        );
 
-    queue.push({
+    }
 
-        name:name,
-
-        phone:phone,
-
-        token:token
-
-    });
-
-
-    let estimatedTime =
-        (queue.length - 1) *
-        averageConsultationTime;
-
-
-    alert(
-        t.tokenGenerated +
-        token +
-        "\n" +
-        t.estimated +
-        estimatedTime +
-        t.minutes
-    );
-
-
-    document.getElementById("name").value =
-        "";
-
-    document.getElementById("phone").value =
-        "";
-
-
-    predictWaitingTime();
-
-    showQueue();
 }
 
 
-/* NEXT PATIENT + SMS MESSAGE */
 
-function nextPatient(){
+// =========================================
+// NEXT PATIENT
+// =========================================
 
-    let t =
-        translations[currentLanguage];
+function nextPatient() {
 
 
-    if(queue.length === 0){
+    // NO PATIENT
 
-        alert(t.noPatients);
+    if (queue.length === 0) {
+
+
+        let language =
+            document
+            .getElementById("languageSelect")
+            .value;
+
+
+        if (language === "en") {
+
+            alert(
+                "No patients waiting."
+            );
+
+        }
+
+
+        else if (language === "hi") {
+
+            alert(
+                "कोई मरीज प्रतीक्षा में नहीं है।"
+            );
+
+        }
+
+
+        else {
+
+            alert(
+                "कोणतेही रुग्ण प्रतीक्षेत नाहीत."
+            );
+
+        }
+
 
         return;
+
     }
 
+
+
+    // TAKE FIRST PATIENT
 
     let patient =
         queue.shift();
 
 
-    current =
+
+    // CURRENT TOKEN
+
+    currentToken =
         patient.token;
 
 
-    document.getElementById("current").innerText =
-        current;
+
+    document
+        .getElementById("currentToken")
+        .innerText = currentToken;
 
 
-    let message;
+
+    // UPDATE LIST
+
+    showWaitingList();
 
 
-    if(currentLanguage === "hi"){
 
-        message =
-            "नमस्ते " +
-            patient.name +
-            "\n\nआपका टोकन नंबर " +
-            patient.token +
-            " अब आ गया है।" +
-            "\nकृपया अस्पताल में डॉक्टर के पास आएं।";
+    // OPEN MESSAGE
 
-    }
+    showPatientMessage(patient);
 
-    else if(currentLanguage === "mr"){
+}
 
-        message =
-            "नमस्कार " +
-            patient.name +
-            "\n\nतुमचा टोकन नंबर " +
-            patient.token +
-            " आता आला आहे." +
-            "\nकृपया हॉस्पिटलमध्ये डॉक्टरांकडे या.";
 
-    }
 
-    else{
+// =========================================
+// SHOW PATIENT MESSAGE WINDOW
+// =========================================
+
+function showPatientMessage(patient) {
+
+
+    let language =
+        document
+        .getElementById("languageSelect")
+        .value;
+
+
+
+    let message = "";
+
+
+
+    // ENGLISH
+
+    if (language === "en") {
+
 
         message =
             "Hello " +
             patient.name +
-            "\n\nYour token number " +
+            ", your turn has arrived. " +
+            "Please come to the hospital. " +
+            "Your token number is " +
             patient.token +
-            " is now active." +
-            "\nPlease come to the hospital and meet the doctor.";
+            ".";
 
     }
 
 
-    let phone =
-        patient.phone;
+
+    // HINDI
+
+    else if (language === "hi") {
 
 
-    let smsURL =
-        "sms:+91" +
-        phone +
-        "?body=" +
-        encodeURIComponent(message);
+        message =
+            "नमस्ते " +
+            patient.name +
+            ", आपकी बारी आ गई है। " +
+            "कृपया अस्पताल में आएं। " +
+            "आपका टोकन नंबर " +
+            patient.token +
+            " है।";
+
+    }
 
 
-    window.location.href =
-        smsURL;
+
+    // MARATHI
+
+    else {
 
 
-    predictWaitingTime();
+        message =
+            "नमस्कार " +
+            patient.name +
+            ", तुमची बारी आली आहे। " +
+            "कृपया हॉस्पिटलमध्ये या। " +
+            "तुमचा टोकन नंबर " +
+            patient.token +
+            " आहे।";
 
-    showQueue();
+    }
+
+
+
+    // OPEN NEW MESSAGE WINDOW
+
+    let messageWindow =
+        window.open(
+            "",
+            "PatientMessage",
+            "width=450,height=550"
+        );
+
+
+
+    // IF POPUP BLOCKED
+
+    if (!messageWindow) {
+
+        alert(
+            "Please allow pop-ups for this website."
+        );
+
+        return;
+
+    }
+
+
+
+    // MESSAGE WINDOW HTML
+
+    messageWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Patient Message</title>
+
+
+<style>
+
+body {
+
+    margin: 0;
+
+    padding: 20px;
+
+    font-family: Arial, sans-serif;
+
+    background: #f2f7ff;
+
 }
 
 
-/* AI WAITING TIME PREDICTION */
+.chat {
 
-function predictWaitingTime(){
+    background: white;
 
-    let t =
-        translations[currentLanguage];
+    padding: 20px;
 
+    border-radius: 12px;
 
-    let patientsWaiting =
-        queue.length;
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.15);
 
-
-    let estimatedTime =
-        patientsWaiting *
-        averageConsultationTime;
-
-
-    if(patientsWaiting === 0){
-
-        document.getElementById("prediction").innerText =
-            t.noPatients;
-
-    }
-
-    else{
-
-        document.getElementById("prediction").innerText =
-            t.estimated +
-            estimatedTime +
-            t.minutes;
-
-    }
 }
 
 
-/* SHOW WAITING LIST */
+h2 {
 
-function showQueue(){
+    margin-top: 0;
 
-    let t =
-        translations[currentLanguage];
+    color: #0d6efd;
 
+    text-align: center;
 
-    let text =
-        "<h3>" +
-        t.waiting +
-        "</h3>";
-
-
-    if(queue.length === 0){
-
-        text +=
-            t.noPatients;
-
-    }
-
-    else{
-
-        queue.forEach(function(patient){
-
-            text +=
-                "Token " +
-                patient.token +
-                " - " +
-                patient.name +
-                "<br>";
-
-        });
-
-    }
-
-
-    document.getElementById("list").innerHTML =
-        text;
 }
 
 
-/* START */
+.patient-info {
 
-changeLanguage();
+    background: #f8f9fa;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+
+}
+
+
+textarea {
+
+    width: 100%;
+
+    height: 160px;
+
+    padding: 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    resize: none;
+
+}
+
+
+button {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 15px;
+
+    background: #0d6efd;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+}
+
+
+button:hover {
+
+    background: #0958c7;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="chat">
+
+
+<h2>
+
+💬 Patient Message
+
+</h2>
+
+
+
+<div class="patient-info">
+
+<b>Patient:</b>
+${patient.name}
+
+<br><br>
+
+<b>Mobile:</b>
+${patient.phone}
+
+<br><br>
+
+<b>Token:</b>
+${patient.token}
+
+</div>
+
+
+
+<textarea id="message">${message}</textarea>
+
+
+
+<button onclick="sendMessage()">
+
+📤 Send
+
+</button>
+
+
+</div>
+
+
+
+<script>
+
+function sendMessage() {
+
+    alert(
+        "Message is ready to send to ${patient.phone}"
+    );
+
+}
+
+<\/script>
+
+
+</body>
+
+</html>
+
+    `);
+
+
+
+    messageWindow.document.close();
+
+}
+
+
+
+// =========================================
+// WAITING LIST
+// =========================================
+
+function showWaitingList() {
+
+
+    let list =
+        document
+        .getElementById("waitingList");
+
+
+
+    // EMPTY
+
+    if (queue.length === 0) {
+
+
+        list.innerHTML =
+
+            '<div class="empty">' +
+
+            getText("empty") +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+
+    // CLEAR LIST
+
+    list.innerHTML = "";
+
+
+
+    // DISPLAY PATIENTS
+
+    queue.forEach(function(patient) {
+
+
+        let div =
+            document.createElement("div");
+
+
+        div.className =
+            "patient";
+
+
+
+        div.innerHTML =
+
+            "<strong>" +
+
+            getText("token") +
+
+            " " +
+
+            patient.token +
+
+            "</strong><br><br>" +
+
+
+            getText("name") +
+
+            ": " +
+
+            patient.name +
+
+            "<br>" +
+
+
+            getText("mobile") +
+
+            ": " +
+
+            patient.phone;
+
+
+
+        list.appendChild(div);
+
+    });
+
+}
+
+
+
+// =========================================
+// TRANSLATION TEXT
+// =========================================
+
+function getText(type) {
+
+
+    let language =
+        document
+        .getElementById("languageSelect")
+        .value;
+
+
+
+    let text = {
+
+
+        en: {
+
+            token: "Token",
+
+            name: "Name",
+
+            mobile: "Mobile",
+
+            empty:
+                "No patients waiting"
+
+        },
+
+
+        hi: {
+
+            token: "टोकन",
+
+            name: "नाम",
+
+            mobile: "मोबाइल",
+
+            empty:
+                "कोई मरीज प्रतीक्षा में नहीं है"
+
+        },
+
+
+        mr: {
+
+            token: "टोकन",
+
+            name: "नाव",
+
+            mobile: "मोबाईल",
+
+            empty:
+                "कोणतेही रुग्ण प्रतीक्षेत नाहीत"
+
+        }
+
+    };
+
+
+
+    return text[language][type];
+
+}
+
+
+
+// =========================================
+// CHANGE LANGUAGE
+// =========================================
+
+function changeLanguage() {
+
+
+    let language =
+        document
+        .getElementById("languageSelect")
+        .value;
+
+
+
+    // =========================
+    // ENGLISH
+    // =========================
+
+    if (language === "en") {
+
+
+        document
+        .getElementById("hospitalTitle")
+        .innerText =
+            "🏥 Hospital Queue System";
+
+
+        document
+        .getElementById("languageLabel")
+        .innerText =
+            "🌐 Language:";
+
+
+        document
+        .getElementById("patientRegistration")
+        .innerText =
+            "Patient Registration";
+
+
+        document
+        .getElementById("nameLabel")
+        .innerText =
+            "Patient Name";
+
+
+        document
+        .getElementById("phoneLabel")
+        .innerText =
+            "Mobile Number";
+
+
+        document
+        .getElementById("name")
+        .placeholder =
+            "Enter patient name";
+
+
+        document
+        .getElementById("phone")
+        .placeholder =
+            "Enter mobile number";
+
+
+        document
+        .getElementById("generateButton")
+        .innerText =
+            "Generate Token";
+
+
+        document
+        .getElementById("yourTokenText")
+        .innerText =
+            "Your Token Number";
+
+
+        document
+        .getElementById("currentTitle")
+        .innerText =
+            "Current Patient";
+
+
+        document
+        .getElementById("nextButton")
+        .innerText =
+            "Next Patient";
+
+
+        document
+        .getElementById("waitingTitle")
+        .innerText =
+            "Waiting List";
+
+    }
+
+
+
+    // =========================
+    // HINDI
+    // =========================
+
+    else if (language === "hi") {
+
+
+        document
+        .getElementById("hospitalTitle")
+        .innerText =
+            "🏥 अस्पताल कतार प्रणाली";
+
+
+        document
+        .getElementById("languageLabel")
+        .innerText =
+            "🌐 भाषा:";
+
+
+        document
+        .getElementById("patientRegistration")
+        .innerText =
+            "मरीज पंजीकरण";
+
+
+        document
+        .getElementById("nameLabel")
+        .innerText =
+            "मरीज का नाम";
+
+
+        document
+        .getElementById("phoneLabel")
+        .innerText =
+            "मोबाइल नंबर";
+
+
+        document
+        .getElementById("name")
+        .placeholder =
+            "मरीज का नाम दर्ज करें";
+
+
+        document
+        .getElementById("phone")
+        .placeholder =
+            "मोबाइल नंबर दर्ज करें";
+
+
+        document
+        .getElementById("generateButton")
+        .innerText =
+            "टोकन जनरेट करें";
+
+
+        document
+        .getElementById("yourTokenText")
+        .innerText =
+            "आपका टोकन नंबर";
+
+
+        document
+        .getElementById("currentTitle")
+        .innerText =
+            "वर्तमान मरीज";
+
+
+        document
+        .getElementById("nextButton")
+        .innerText =
+            "अगला मरीज";
+
+
+        document
+        .getElementById("waitingTitle")
+        .innerText =
+            "प्रतीक्षा सूची";
+
+    }
+
+
+
+    // =========================
+    // MARATHI
+    // =========================
+
+    else {
+
+
+        document
+        .getElementById("hospitalTitle")
+        .innerText =
+            "🏥 हॉस्पिटल रांग प्रणाली";
+
+
+        document
+        .getElementById("languageLabel")
+        .innerText =
+            "🌐 भाषा:";
+
+
+        document
+        .getElementById("patientRegistration")
+        .innerText =
+            "रुग्ण नोंदणी";
+
+
+        document
+        .getElementById("nameLabel")
+        .innerText =
+            "रुग्णाचे नाव";
+
+
+        document
+        .getElementById("phoneLabel")
+        .innerText =
+            "मोबाईल नंबर";
+
+
+        document
+        .getElementById("name")
+        .placeholder =
+            "रुग्णाचे नाव टाका";
+
+
+        document
+        .getElementById("phone")
+        .placeholder =
+            "मोबाईल नंबर टाका";
+
+
+        document
+        .getElementById("generateButton")
+        .innerText =
+            "टोकन तयार करा";
+
+
+        document
+        .getElementById("yourTokenText")
+        .innerText =
+            "तुमचा टोकन नंबर";
+
+
+        document
+        .getElementById("currentTitle")
+        .innerText =
+            "सध्याचा रुग्ण";
+
+
+        document
+        .getElementById("nextButton")
+        .innerText =
+            "पुढील रुग्ण";
+
+
+        document
+        .getElementById("waitingTitle")
+        .innerText =
+            "प्रतीक्षा यादी";
+
+    }
+
+
+
+    // UPDATE LIST
+
+    showWaitingList();
+
+}
 
 </script>
 
 </body>
+
 </html>
 
     
