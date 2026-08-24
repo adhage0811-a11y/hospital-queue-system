@@ -3,281 +3,295 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Hospital Queue System</title>
+<title>Hospital Queue System</title>
 
+<style>
 
-    <style>
+* {
+    box-sizing: border-box;
+}
 
-        * {
-            box-sizing: border-box;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f7ff;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f2f7ff;
-        }
+/* HEADER */
 
+header {
+    background: #0d6efd;
+    color: white;
 
-        /* HEADER */
+    padding: 15px 25px;
 
-        header {
-            background: #0d6efd;
-            color: white;
-            padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+header h2 {
+    margin: 0;
+}
 
-        header h2 {
-            margin: 0;
-        }
+.language-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
+#languageSelect {
+    padding: 8px 12px;
 
-        /* LANGUAGE */
+    border: none;
+    border-radius: 6px;
 
-        .language-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    font-size: 15px;
+    cursor: pointer;
+}
 
-        #languageSelect {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            cursor: pointer;
-        }
 
+/* MAIN */
 
-        /* MAIN */
+.container {
+    max-width: 750px;
 
-        .container {
-            max-width: 750px;
-            margin: 30px auto;
+    margin: 30px auto;
 
-            background: white;
+    background: white;
 
-            padding: 25px;
+    padding: 25px;
 
-            border-radius: 12px;
+    border-radius: 12px;
 
-            box-shadow:
-                0 4px 15px rgba(0,0,0,0.1);
-        }
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.1);
+}
 
+h1 {
+    text-align: center;
 
-        h1 {
-            text-align: center;
-            color: #0d6efd;
-        }
+    color: #0d6efd;
+}
 
 
-        /* FORM */
+/* FORM */
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+.form-group {
+    margin-bottom: 15px;
+}
 
-        label {
-            display: block;
+label {
+    display: block;
 
-            margin-bottom: 6px;
+    margin-bottom: 6px;
 
-            font-weight: bold;
-        }
+    font-weight: bold;
+}
 
-        input {
-            width: 100%;
+input {
+    width: 100%;
 
-            padding: 12px;
+    padding: 12px;
 
-            border: 1px solid #ccc;
+    border: 1px solid #ccc;
 
-            border-radius: 6px;
+    border-radius: 6px;
 
-            font-size: 16px;
-        }
+    font-size: 16px;
+}
 
 
-        /* BUTTON */
+/* BUTTON */
 
-        button {
-            width: 100%;
+button {
+    width: 100%;
 
-            padding: 12px;
+    padding: 12px;
 
-            border: none;
+    border: none;
 
-            border-radius: 7px;
+    border-radius: 7px;
 
-            color: white;
+    color: white;
 
-            font-size: 16px;
+    font-size: 16px;
 
-            cursor: pointer;
+    cursor: pointer;
 
-            margin-top: 10px;
-        }
+    margin-top: 10px;
+}
 
 
-        .generate-btn {
-            background: #0d6efd;
-        }
+/* GENERATE */
 
-        .generate-btn:hover {
-            background: #0958c7;
-        }
+.generate-btn {
+    background: #0d6efd;
+}
 
+.generate-btn:hover {
+    background: #0958c7;
+}
 
-        .next-btn {
-            background: #198754;
-        }
 
-        .next-btn:hover {
-            background: #146c43;
-        }
+/* NEXT */
 
+.next-btn {
+    background: #198754;
+}
 
-        /* TOKEN */
+.next-btn:hover {
+    background: #146c43;
+}
 
-        .token-box {
-            margin-top: 25px;
 
-            padding: 20px;
+/* SMS */
 
-            background: #e7f1ff;
+.sms-btn {
+    background: #6f42c1;
+}
 
-            border-radius: 10px;
+.sms-btn:hover {
+    background: #59339d;
+}
 
-            text-align: center;
-        }
 
+/* TOKEN */
 
-        .token-number {
-            font-size: 45px;
+.token-box {
+    margin-top: 25px;
 
-            font-weight: bold;
+    padding: 20px;
 
-            color: #0d6efd;
+    background: #e7f1ff;
 
-            margin-top: 5px;
-        }
+    border-radius: 10px;
 
+    text-align: center;
+}
 
-        /* CURRENT PATIENT */
+.token-number {
+    font-size: 45px;
 
-        .current-box {
-            margin-top: 25px;
+    font-weight: bold;
 
-            padding: 20px;
+    color: #0d6efd;
+}
 
-            background: #e8f5e9;
 
-            border-radius: 10px;
+/* CURRENT PATIENT */
 
-            text-align: center;
-        }
+.current-box {
+    margin-top: 25px;
 
+    padding: 20px;
 
-        .current-number {
-            font-size: 45px;
+    background: #e8f5e9;
 
-            font-weight: bold;
+    border-radius: 10px;
 
-            color: #198754;
-        }
+    text-align: center;
+}
 
+.current-number {
+    font-size: 45px;
 
-        /* WAITING LIST */
+    font-weight: bold;
 
-        .waiting {
-            margin-top: 30px;
-        }
+    color: #198754;
+}
 
 
-        .patient {
-            background: #f8f9fa;
+/* WAITING LIST */
 
-            border: 1px solid #ddd;
+.waiting {
+    margin-top: 30px;
+}
 
-            padding: 14px;
+.patient {
+    background: #f8f9fa;
 
-            margin-bottom: 10px;
+    border: 1px solid #ddd;
 
-            border-radius: 8px;
-        }
+    padding: 14px;
 
+    margin-bottom: 10px;
 
-        .patient strong {
-            color: #0d6efd;
+    border-radius: 8px;
+}
 
-            font-size: 18px;
-        }
+.patient strong {
+    color: #0d6efd;
 
+    font-size: 18px;
+}
 
-        .empty {
-            text-align: center;
+.empty {
+    text-align: center;
 
-            color: #777;
+    color: #777;
 
-            padding: 15px;
-        }
+    padding: 15px;
+}
 
 
-        /* MESSAGE */
+/* MESSAGE */
 
-        .message-box {
-            margin-top: 20px;
+.message-box {
+    margin-top: 20px;
 
-            padding: 15px;
+    padding: 15px;
 
-            background: #fff3cd;
+    background: #fff3cd;
 
-            border: 1px solid #ffe69c;
+    border: 1px solid #ffe69c;
 
-            border-radius: 8px;
+    border-radius: 8px;
 
-            display: none;
-        }
+    display: none;
+}
 
+.message-text {
+    background: white;
 
-        /* MOBILE */
+    padding: 15px;
 
-        @media(max-width:600px) {
+    border-radius: 8px;
 
-            header {
-                flex-direction: column;
+    line-height: 1.6;
+}
 
-                align-items: stretch;
 
-                text-align: center;
-            }
+/* MOBILE */
 
-            .language-box {
-                justify-content: center;
-            }
+@media(max-width:600px) {
 
-            .container {
-                margin: 15px;
+    header {
+        flex-direction: column;
 
-                padding: 20px;
-            }
+        text-align: center;
+    }
 
-        }
+    .language-box {
+        justify-content: center;
+    }
 
-    </style>
+    .container {
+        margin: 15px;
+
+        padding: 20px;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -285,9 +299,9 @@
 <body>
 
 
-<!-- =========================================
+<!-- =====================================
      HEADER
-========================================= -->
+===================================== -->
 
 <header>
 
@@ -327,9 +341,9 @@
 
 
 
-<!-- =========================================
-     MAIN CONTAINER
-========================================= -->
+<!-- =====================================
+     MAIN
+===================================== -->
 
 <div class="container">
 
@@ -343,9 +357,7 @@
 
     <div class="form-group">
 
-        <label
-            id="nameLabel"
-            for="name">
+        <label id="nameLabel">
 
             Patient Name
 
@@ -361,13 +373,11 @@
 
 
 
-    <!-- MOBILE NUMBER -->
+    <!-- MOBILE -->
 
     <div class="form-group">
 
-        <label
-            id="phoneLabel"
-            for="phone">
+        <label id="phoneLabel">
 
             Mobile Number
 
@@ -396,9 +406,7 @@
 
 
 
-    <!-- =========================================
-         TOKEN DISPLAY
-    ========================================= -->
+    <!-- TOKEN -->
 
     <div class="token-box">
 
@@ -421,9 +429,7 @@
 
 
 
-    <!-- =========================================
-         CURRENT PATIENT
-    ========================================= -->
+    <!-- CURRENT PATIENT -->
 
     <div class="current-box">
 
@@ -446,9 +452,7 @@
 
 
 
-    <!-- =========================================
-         NEXT PATIENT
-    ========================================= -->
+    <!-- NEXT PATIENT -->
 
     <button
         class="next-btn"
@@ -461,23 +465,47 @@
 
 
 
-    <!-- =========================================
-         MESSAGE
-    ========================================= -->
+    <!-- MESSAGE BOX -->
 
     <div
         class="message-box"
         id="messageBox">
 
+
+        <h3 id="messageTitle">
+
+            📢 Patient Message
+
+        </h3>
+
+
+        <div
+            class="message-text"
+            id="messageText">
+
+        </div>
+
+
+        <!-- OPEN SMS -->
+
+        <button
+            class="sms-btn"
+            id="smsButton"
+            onclick="openSMS()">
+
+            📱 Open SMS
+
+        </button>
+
+
     </div>
 
 
 
-    <!-- =========================================
-         WAITING LIST
-    ========================================= -->
+    <!-- WAITING LIST -->
 
     <div class="waiting">
+
 
         <h2 id="waitingTitle">
 
@@ -506,9 +534,9 @@
 <script>
 
 
-// =========================================
-// QUEUE VARIABLES
-// =========================================
+// =====================================
+// QUEUE
+// =====================================
 
 let queue = [];
 
@@ -516,11 +544,13 @@ let tokenCounter = 0;
 
 let currentToken = 0;
 
+let currentPatient = null;
 
 
-// =========================================
+
+// =====================================
 // ADD PATIENT
-// =========================================
+// =====================================
 
 function addPatient() {
 
@@ -539,16 +569,16 @@ function addPatient() {
         .trim();
 
 
+    let language =
+        document
+        .getElementById("languageSelect")
+        .value;
 
-    // CHECK EMPTY
+
+
+    // EMPTY CHECK
 
     if (name === "" || phone === "") {
-
-
-        let language =
-            document
-            .getElementById("languageSelect")
-            .value;
 
 
         if (language === "en") {
@@ -559,7 +589,6 @@ function addPatient() {
 
         }
 
-
         else if (language === "hi") {
 
             alert(
@@ -567,7 +596,6 @@ function addPatient() {
             );
 
         }
-
 
         else {
 
@@ -577,14 +605,59 @@ function addPatient() {
 
         }
 
-
         return;
-
     }
 
 
 
-    // CREATE TOKEN
+    // CLEAN MOBILE
+
+    let cleanPhone =
+        phone.replace(/\D/g, "");
+
+
+
+    // VALIDATE MOBILE
+
+    if (
+        cleanPhone.length !== 10 &&
+        !(
+            cleanPhone.length === 12 &&
+            cleanPhone.startsWith("91")
+        )
+    ) {
+
+
+        if (language === "en") {
+
+            alert(
+                "Please enter a valid 10 digit mobile number."
+            );
+
+        }
+
+        else if (language === "hi") {
+
+            alert(
+                "कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।"
+            );
+
+        }
+
+        else {
+
+            alert(
+                "कृपया 10 अंकी योग्य मोबाईल नंबर टाका."
+            );
+
+        }
+
+        return;
+    }
+
+
+
+    // TOKEN
 
     tokenCounter++;
 
@@ -594,7 +667,7 @@ function addPatient() {
 
         name: name,
 
-        phone: phone,
+        phone: cleanPhone,
 
         token: tokenCounter
 
@@ -602,7 +675,7 @@ function addPatient() {
 
 
 
-    // ADD TO QUEUE
+    // ADD QUEUE
 
     queue.push(patient);
 
@@ -612,7 +685,8 @@ function addPatient() {
 
     document
         .getElementById("tokenNumber")
-        .innerText = tokenCounter;
+        .innerText =
+        tokenCounter;
 
 
 
@@ -629,20 +703,13 @@ function addPatient() {
 
 
 
-    // UPDATE WAITING LIST
+    // UPDATE LIST
 
     showWaitingList();
 
 
 
     // SUCCESS MESSAGE
-
-    let language =
-        document
-        .getElementById("languageSelect")
-        .value;
-
-
 
     if (language === "en") {
 
@@ -654,7 +721,6 @@ function addPatient() {
 
     }
 
-
     else if (language === "hi") {
 
         alert(
@@ -664,7 +730,6 @@ function addPatient() {
         );
 
     }
-
 
     else {
 
@@ -680,22 +745,23 @@ function addPatient() {
 
 
 
-// =========================================
+// =====================================
 // NEXT PATIENT
-// =========================================
+// =====================================
 
 function nextPatient() {
+
+
+    let language =
+        document
+        .getElementById("languageSelect")
+        .value;
+
 
 
     // NO PATIENT
 
     if (queue.length === 0) {
-
-
-        let language =
-            document
-            .getElementById("languageSelect")
-            .value;
 
 
         if (language === "en") {
@@ -706,7 +772,6 @@ function nextPatient() {
 
         }
 
-
         else if (language === "hi") {
 
             alert(
@@ -714,7 +779,6 @@ function nextPatient() {
             );
 
         }
-
 
         else {
 
@@ -724,16 +788,14 @@ function nextPatient() {
 
         }
 
-
         return;
-
     }
 
 
 
-    // TAKE FIRST PATIENT
+    // FIRST PATIENT
 
-    let patient =
+    currentPatient =
         queue.shift();
 
 
@@ -741,42 +803,42 @@ function nextPatient() {
     // CURRENT TOKEN
 
     currentToken =
-        patient.token;
+        currentPatient.token;
 
 
 
     document
         .getElementById("currentToken")
-        .innerText = currentToken;
+        .innerText =
+        currentToken;
 
 
 
-    // UPDATE LIST
+    // UPDATE WAITING LIST
 
     showWaitingList();
 
 
 
-    // OPEN MESSAGE
+    // CREATE MESSAGE
 
-    showPatientMessage(patient);
+    createPatientMessage(currentPatient);
 
 }
 
 
 
-// =========================================
-// SHOW PATIENT MESSAGE WINDOW
-// =========================================
+// =====================================
+// CREATE MESSAGE
+// =====================================
 
-function showPatientMessage(patient) {
+function createPatientMessage(patient) {
 
 
     let language =
         document
         .getElementById("languageSelect")
         .value;
-
 
 
     let message = "";
@@ -837,232 +899,100 @@ function showPatientMessage(patient) {
 
 
 
-    // OPEN NEW MESSAGE WINDOW
+    // SHOW MESSAGE
 
-    let messageWindow =
-        window.open(
-            "",
-            "PatientMessage",
-            "width=450,height=550"
-        );
+    document
+        .getElementById("messageText")
+        .innerText =
+        message;
 
 
+    document
+        .getElementById("messageBox")
+        .style.display =
+        "block";
 
-    // IF POPUP BLOCKED
+}
 
-    if (!messageWindow) {
+
+
+// =====================================
+// OPEN SMS
+// =====================================
+
+function openSMS() {
+
+
+    if (!currentPatient) {
 
         alert(
-            "Please allow pop-ups for this website."
+            "Please click Next Patient first."
         );
 
         return;
+    }
+
+
+
+    // MOBILE NUMBER
+
+    let phone =
+        currentPatient.phone;
+
+
+
+    // INDIA COUNTRY CODE
+
+    if (phone.length === 10) {
+
+        phone =
+            "+91" + phone;
+
+    }
+
+    else if (
+        phone.length === 12 &&
+        phone.startsWith("91")
+    ) {
+
+        phone =
+            "+" + phone;
 
     }
 
 
 
-    // MESSAGE WINDOW HTML
+    // MESSAGE
 
-    messageWindow.document.write(`
-
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>Patient Message</title>
+    let message =
+        document
+        .getElementById("messageText")
+        .innerText;
 
 
-<style>
 
-body {
+    // SMS LINK
 
-    margin: 0;
+    let smsURL =
+        "sms:" +
+        phone +
+        "?body=" +
+        encodeURIComponent(message);
 
-    padding: 20px;
 
-    font-family: Arial, sans-serif;
 
-    background: #f2f7ff;
+    // OPEN SMS APP
+
+    window.location.href =
+        smsURL;
 
 }
 
 
-.chat {
 
-    background: white;
-
-    padding: 20px;
-
-    border-radius: 12px;
-
-    box-shadow:
-        0 4px 15px rgba(0,0,0,0.15);
-
-}
-
-
-h2 {
-
-    margin-top: 0;
-
-    color: #0d6efd;
-
-    text-align: center;
-
-}
-
-
-.patient-info {
-
-    background: #f8f9fa;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    margin-bottom: 15px;
-
-}
-
-
-textarea {
-
-    width: 100%;
-
-    height: 160px;
-
-    padding: 12px;
-
-    box-sizing: border-box;
-
-    border: 1px solid #ccc;
-
-    border-radius: 8px;
-
-    font-size: 16px;
-
-    resize: none;
-
-}
-
-
-button {
-
-    width: 100%;
-
-    padding: 13px;
-
-    margin-top: 15px;
-
-    background: #0d6efd;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 8px;
-
-    font-size: 17px;
-
-    cursor: pointer;
-
-}
-
-
-button:hover {
-
-    background: #0958c7;
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<div class="chat">
-
-
-<h2>
-
-💬 Patient Message
-
-</h2>
-
-
-
-<div class="patient-info">
-
-<b>Patient:</b>
-${patient.name}
-
-<br><br>
-
-<b>Mobile:</b>
-${patient.phone}
-
-<br><br>
-
-<b>Token:</b>
-${patient.token}
-
-</div>
-
-
-
-<textarea id="message">${message}</textarea>
-
-
-
-<button onclick="sendMessage()">
-
-📤 Send
-
-</button>
-
-
-</div>
-
-
-
-<script>
-
-function sendMessage() {
-
-    alert(
-        "Message is ready to send to ${patient.phone}"
-    );
-
-}
-
-<\/script>
-
-
-</body>
-
-</html>
-
-    `);
-
-
-
-    messageWindow.document.close();
-
-}
-
-
-
-// =========================================
+// =====================================
 // WAITING LIST
-// =========================================
+// =====================================
 
 function showWaitingList() {
 
@@ -1087,18 +1017,15 @@ function showWaitingList() {
             '</div>';
 
         return;
-
     }
 
 
-
-    // CLEAR LIST
 
     list.innerHTML = "";
 
 
 
-    // DISPLAY PATIENTS
+    // PATIENTS
 
     queue.forEach(function(patient) {
 
@@ -1109,7 +1036,6 @@ function showWaitingList() {
 
         div.className =
             "patient";
-
 
 
         div.innerHTML =
@@ -1141,7 +1067,6 @@ function showWaitingList() {
             patient.phone;
 
 
-
         list.appendChild(div);
 
     });
@@ -1150,9 +1075,9 @@ function showWaitingList() {
 
 
 
-// =========================================
-// TRANSLATION TEXT
-// =========================================
+// =====================================
+// TRANSLATION
+// =====================================
 
 function getText(type) {
 
@@ -1211,16 +1136,15 @@ function getText(type) {
     };
 
 
-
     return text[language][type];
 
 }
 
 
 
-// =========================================
+// =====================================
 // CHANGE LANGUAGE
-// =========================================
+// =====================================
 
 function changeLanguage() {
 
@@ -1232,9 +1156,7 @@ function changeLanguage() {
 
 
 
-    // =========================
     // ENGLISH
-    // =========================
 
     if (language === "en") {
 
@@ -1310,13 +1232,23 @@ function changeLanguage() {
         .innerText =
             "Waiting List";
 
+
+        document
+        .getElementById("messageTitle")
+        .innerText =
+            "📢 Patient Message";
+
+
+        document
+        .getElementById("smsButton")
+        .innerText =
+            "📱 Open SMS";
+
     }
 
 
 
-    // =========================
     // HINDI
-    // =========================
 
     else if (language === "hi") {
 
@@ -1392,13 +1324,23 @@ function changeLanguage() {
         .innerText =
             "प्रतीक्षा सूची";
 
+
+        document
+        .getElementById("messageTitle")
+        .innerText =
+            "📢 मरीज का संदेश";
+
+
+        document
+        .getElementById("smsButton")
+        .innerText =
+            "📱 SMS खोलें";
+
     }
 
 
 
-    // =========================
     // MARATHI
-    // =========================
 
     else {
 
@@ -1474,6 +1416,18 @@ function changeLanguage() {
         .innerText =
             "प्रतीक्षा यादी";
 
+
+        document
+        .getElementById("messageTitle")
+        .innerText =
+            "📢 रुग्णाचा संदेश";
+
+
+        document
+        .getElementById("smsButton")
+        .innerText =
+            "📱 SMS उघडा";
+
     }
 
 
@@ -1485,6 +1439,7 @@ function changeLanguage() {
 }
 
 </script>
+
 
 </body>
 
