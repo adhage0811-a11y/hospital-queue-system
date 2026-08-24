@@ -1,313 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Smart Hospital Queue System</title>
+<title>Language Change</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
+<style>
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    padding:50px;
+    background:#f4f7fb;
+}
 
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
+.container{
+    background:white;
+    max-width:500px;
+    margin:auto;
+    padding:30px;
+    border-radius:15px;
+}
 
-        h1 {
-            color: #1976d2;
-        }
+select, button{
+    padding:12px;
+    font-size:16px;
+    margin:10px;
+}
 
-        h2 {
-            margin-top: 25px;
-        }
-
-        input {
-            width: 90%;
-            padding: 12px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 12px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 8px;
-            background: #1976d2;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #125ea8;
-        }
-
-        .token-box {
-            background: #e3f2fd;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .prediction-box {
-            background: #fff3cd;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        #current {
-            font-size: 45px;
-            color: #1976d2;
-        }
-
-        #prediction {
-            font-size: 22px;
-            font-weight: bold;
-            color: #d35400;
-        }
-
-        #list {
-            text-align: left;
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-    </style>
+button{
+    background:#1976d2;
+    color:white;
+    border:none;
+    border-radius:8px;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Smart Hospital Queue System</h1>
+<h1 id="title">Smart Hospital Queue System</h1>
 
-    <input
-        type="text"
-        id="name"
-        placeholder="Enter Patient Name"
-    >
+<select id="language" onchange="changeLanguage()">
+    <option value="en">English</option>
+    <option value="hi">हिंदी</option>
+    <option value="mr">मराठी</option>
+</select>
 
-    <br>
+<h2 id="welcome">Welcome to Hospital Queue System</h2>
 
-    <input
-        type="tel"
-        id="phone"
-        placeholder="Enter Mobile Number"
-    >
+<input type="text" id="name" placeholder="Enter Patient Name">
 
-    <br>
+<br>
 
-    <button onclick="addPatient()">
-        Get Token
-    </button>
-
-
-    <div class="token-box">
-
-        <h2>Current Token</h2>
-
-        <h1 id="current">0</h1>
-
-        <button onclick="nextPatient()">
-            Next Patient
-        </button>
-
-    </div>
-
-
-    <div class="prediction-box">
-
-        <h2>AI Estimated Waiting Time</h2>
-
-        <p id="prediction">
-            Waiting time will appear here
-        </p>
-
-    </div>
-
-
-    <div id="list">
-
-        <h3>Waiting List</h3>
-
-        No patients waiting.
-
-    </div>
+<button id="button">Get Token</button>
 
 </div>
 
 
 <script>
 
-let queue = [];
+const translations = {
 
-let current = 0;
+en:{
+    title:"Smart Hospital Queue System",
+    welcome:"Welcome to Hospital Queue System",
+    name:"Enter Patient Name",
+    button:"Get Token"
+},
 
-let averageConsultationTime = 10;
+hi:{
+    title:"स्मार्ट हॉस्पिटल कतार प्रणाली",
+    welcome:"हॉस्पिटल कतार प्रणाली में आपका स्वागत है",
+    name:"मरीज का नाम दर्ज करें",
+    button:"टोकन प्राप्त करें"
+},
 
-
-/* ADD PATIENT */
-
-function addPatient() {
-
-    let name = document.getElementById("name").value.trim();
-
-    let phone = document.getElementById("phone").value.trim();
-
-
-    if (name === "" || phone === "") {
-
-        alert("Please enter patient name and mobile number");
-
-        return;
-    }
-
-
-    let token = queue.length + current + 1;
-
-
-    queue.push({
-
-        name: name,
-
-        phone: phone,
-
-        token: token
-
-    });
-
-
-    alert(
-        "Token Generated: " + token +
-        "\nEstimated Waiting Time: " +
-        (queue.length - 1) * averageConsultationTime +
-        " minutes"
-    );
-
-
-    document.getElementById("name").value = "";
-
-    document.getElementById("phone").value = "";
-
-
-    predictWaitingTime();
-
-    showQueue();
-
+mr:{
+    title:"स्मार्ट हॉस्पिटल रांग प्रणाली",
+    welcome:"हॉस्पिटल रांग प्रणालीमध्ये आपले स्वागत आहे",
+    name:"रुग्णाचे नाव टाका",
+    button:"टोकन मिळवा"
 }
 
-
-/* NEXT PATIENT */
-
-function nextPatient() {
-
-    if (queue.length === 0) {
-
-        alert("No patients waiting");
-
-        return;
-    }
+};
 
 
-    let patient = queue.shift();
+function changeLanguage(){
+
+    let language =
+        document.getElementById("language").value;
+
+    let t =
+        translations[language];
 
 
-    current = patient.token;
+    document.getElementById("title").innerText =
+        t.title;
 
+    document.getElementById("welcome").innerText =
+        t.welcome;
 
-    document.getElementById("current").innerText = current;
+    document.getElementById("name").placeholder =
+        t.name;
 
-
-    predictWaitingTime();
-
-    showQueue();
+    document.getElementById("button").innerText =
+        t.button;
 
 }
-
-
-/* AI WAITING TIME PREDICTION */
-
-function predictWaitingTime() {
-
-    let patientsWaiting = queue.length;
-
-
-    let estimatedTime =
-        patientsWaiting * averageConsultationTime;
-
-
-    if (patientsWaiting === 0) {
-
-        document.getElementById("prediction").innerText =
-            "No waiting patients";
-
-    }
-
-    else {
-
-        document.getElementById("prediction").innerText =
-            "AI Estimated Waiting Time: " +
-            estimatedTime +
-            " minutes";
-
-    }
-
-}
-
-
-/* SHOW QUEUE */
-
-function showQueue() {
-
-    let text = "<h3>Waiting List</h3>";
-
-
-    if (queue.length === 0) {
-
-        text += "No patients waiting.";
-
-    }
-
-    else {
-
-        queue.forEach(function(patient) {
-
-            text +=
-                "Token " +
-                patient.token +
-                " - " +
-                patient.name +
-                "<br>";
-
-        });
-
-    }
-
-
-    document.getElementById("list").innerHTML = text;
-
-}
-
-
-/* INITIAL PREDICTION */
-
-predictWaitingTime();
 
 </script>
 
